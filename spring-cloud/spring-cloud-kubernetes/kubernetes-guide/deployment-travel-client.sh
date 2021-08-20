@@ -1,34 +1,26 @@
-### set docker env
-eval $(minikube docker-env)
+kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default
 
-### build the repository
-#mvn clean  install
+cd ~
+git clone https://github.com/kwlpuchong/spring-cloud-k8.git
 
-### build the docker images on minikube
-cd travel-agency-service
+cd ~/spring-cloud-k8/spring-cloud/spring-cloud-kubernetes
+mvn clean install -pl kubernetes-guide/client-service,kubernetes-guide/travel-agency-service
+
+cd ~/spring-cloud-k8/spring-cloud/spring-cloud-kubernetes/kubernetes-guide/travel-agency-service/
 docker build -t travel-agency-service .
-cd ../client-service
+docker tag travel-agency-service localhost:5000/travel-agency-service
+docker push localhost:5000/travel-agency-service
+
+cd ~/spring-cloud-k8/spring-cloud/spring-cloud-kubernetes/kubernetes-guide/client-service/
 docker build -t client-service .
-cd ..
+docker tag client-service localhost:5000/client-service
+docker push localhost:5000/client-service
 
-### secret and mongodb
-kubectl delete -f travel-agency-service/secret.yaml
-kubectl delete -f travel-agency-service/mongo-deployment.yaml
+cd ~/spring-cloud-k8/spring-cloud/spring-cloud-kubernetes/kubernetes-guide/travel-agency-service/
+kubectl apply -f mongo-secret.yaml
+kubectl apply -f mongo-deployment.yaml
+kubectl apply -f travel-agency-deployment.yaml
 
-kubectl create -f travel-agency-service/secret.yaml
-kubectl create -f travel-agency-service/mongo-deployment.yaml
-
-### travel-agency-service
-kubectl delete -f travel-agency-service/travel-agency-deployment.yaml
-kubectl create -f travel-agency-service/travel-agency-deployment.yaml
-
-
-### client-service
-kubectl delete configmap client-service
-kubectl delete -f client-service/client-service-deployment.yaml
-
-kubectl create -f client-service/client-config.yaml
-kubectl create -f client-service/client-service-deployment.yaml
-
-# Check that the pods are running
-kubectl get pods
+cd ~/spring-cloud-k8/spring-cloud/spring-cloud-kubernetes/kubernetes-guide/client-service/
+kubectl apply -f client-config.yaml
+kubectl apply -f client-service-deployment.yaml
