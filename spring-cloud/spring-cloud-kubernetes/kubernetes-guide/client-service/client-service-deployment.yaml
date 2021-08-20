@@ -8,8 +8,8 @@ spec:
     app: client-service
   ports:
   - protocol: TCP
-    targetPort: 80
-    port: 80
+    targetPort: 8080
+    port: 8080
     nodePort: 30080
 ---
 apiVersion: apps/v1
