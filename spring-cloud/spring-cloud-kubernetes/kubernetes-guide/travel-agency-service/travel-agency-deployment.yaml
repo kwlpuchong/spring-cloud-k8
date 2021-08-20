@@ -8,8 +8,6 @@ spec:
   ports:
   - protocol: TCP
     port: 8080
-    nodePort: 30081
-  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -27,18 +25,17 @@ spec:
     spec:
       containers:
         - name: travel-agency-service
-          image: travel-agency-service:latest
-          imagePullPolicy: Never
+          image: localhost:5000/travel-agency-service:latest
           ports:
           - containerPort: 8080
           env:
             - name: MONGO_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: db-secret
-                  key: username
+                  name: mongodb
+                  key: database-user
             - name: MONGO_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: db-secret
-                  key: password
+                  name: mongodb
+                  key: database-password
