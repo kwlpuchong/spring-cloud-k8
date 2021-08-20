@@ -8,8 +8,6 @@ spec:
   ports:
   - protocol: TCP
     port: 8080
-    nodePort: 30083
-  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -27,7 +25,6 @@ spec:
     spec:
       containers:
         - name: client-service
-          image: client-service:latest
-          imagePullPolicy: Never
+          image: localhost:5000/client-service:latest
           ports:
             - containerPort: 8080
