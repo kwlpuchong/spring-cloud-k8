@@ -30,7 +30,14 @@ public class TravelAgencyController {
             return travelDealList.get(randomDeal)
                 .toString();
         } else {
-            return "NO DEALS";
+            String host = "";
+            try {
+                host = InetAddress.getLocalHost().getHostName();
+            }
+            catch (UnknownHostException exception) {
+            }
+            
+            return "NO DEALS[host]:" + host;
         }
     }
 
