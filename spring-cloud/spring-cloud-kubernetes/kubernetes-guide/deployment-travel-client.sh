@@ -4,9 +4,6 @@ clear
 
 kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default
 
-cd ~
-git clone https://github.com/kwlpuchong/spring-cloud-k8.git
-
 cd ~/spring-cloud-k8/spring-cloud/spring-cloud-kubernetes
 mvn clean install -pl kubernetes-guide/client-service,kubernetes-guide/travel-agency-service
 
