@@ -37,7 +37,7 @@ public class TravelAgencyController {
             catch (UnknownHostException exception) {
             }
             
-            return "NO DEALS[host]:" + host;
+            return "NO DEALS[host]:" + host + "\n";
         }
     }
 

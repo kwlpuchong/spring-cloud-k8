@@ -10,7 +10,7 @@ management:
       enabled: true
     info:
       enabled: true
-ribbon:
-  http:
-    client:
-      enabled: true
+#ribbon:
+#  http:
+#    client:
+#      enabled: true
